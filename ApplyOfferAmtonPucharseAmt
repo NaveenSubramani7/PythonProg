@@ -1,0 +1,45 @@
+try:
+    # Get the purchase amount of the customer
+    acct = [(1, "naveen", int(input("Enter the purchase amount for customer 1: "))),(1, "abc", int(input("Enter the purchase amount for customer 2: ")))]
+    # Calculate the final purchase amount after including the discount offers
+    def purchase_order():
+        # Determines the offer amount based on purchase amount
+        def get_offer_amount(purchase_amount):
+            # Determines the Max offer amount based on purchase amount
+            def get_max_offer_amount(purchase_amount, offer_amount):
+                print("offeramt" + str(offer_amount))
+                # If purchase amount is greater than 1000 and less than 5000, he can get maximum discount of 100
+                if purchase_amount >= 1000 and purchase_amount < 4999:
+                    if offer_amount > 100:
+                       return 100
+                    else:
+                       return offer_amount
+                # If purchase amount is greater than 5000, he can get maximum discount of 200
+                elif purchase_amount >= 5000:
+                    if offer_amount > 200:
+                        return 200
+                    else:
+                        return offer_amount
+                # purchase amount is not eligible for any offer
+                else:
+                  return offer_amount
+            # If purchase amount is greater than 1000 and less than 5000, he can get 10% offer
+            if purchase_amount >= 1000 and purchase_amount < 4999:
+                return (purchase_amount * 0.10, get_max_offer_amount) # here get_max_offer_amount is returned as hof function
+            # If purchase amount is greater than 5000, he can get 20% offer
+            elif purchase_amount >= 5000:
+                return (purchase_amount * 0.20,get_max_offer_amount)
+            # purchase amount is not eligible for any offer
+            else:
+                return (0,get_max_offer_amount)
+        for i in acct: # usage of closure
+            # Call  the nested function and get the eligible offer for the purchase amount
+            acct_offer = get_offer_amount(i[2]) # nested function
+            print("The actual offer amount for the order" + str(acct_offer[0]))
+            # Call  the hof function returned from above nested function and get the maximum offer for the purchase amount
+            acct_max_offer = acct_offer[1](i[2], acct_offer[0])
+            print("The actual offer amount for the customer " + str(i[1]) + " and eligible offer to be applied is " + str(acct_offer[0]) + " But, the maximum offer can be applied is " + str(acct_max_offer))
+    # purchase order function will be invoked
+    purchase_order()
+except Exception as err:
+    print ("Error in providing purchase amount, it should be integer value" + err)
